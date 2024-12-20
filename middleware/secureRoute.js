@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.module.js";
 
 const secureRoute = async (req, res, next) => {
-  console.log(req.cookies, "cook");
   try {
     const token = req.cookies.jwt;
     if (!token) {
@@ -25,4 +24,4 @@ const secureRoute = async (req, res, next) => {
   }
 };
 
-export default secureRoute();
+export default secureRoute;

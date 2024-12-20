@@ -10,7 +10,6 @@ dotenv.config();
 const port = process.env.PORT || 5000;
 const URI = process.env.MONGODB_URI;
 
-// Enhanced JSON parsing middleware
 app.use(express.json());
 // Add error handling middleware
 app.use((err, req, res, next) => {
@@ -33,7 +32,7 @@ try {
   console.log(error);
 }
 
-// app.use("/user", userRoutes);
+app.use("/api/user", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
