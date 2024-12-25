@@ -72,7 +72,7 @@ export const getUserProfile = async (req, res) => {
       _id: { $ne: loggedInUser },
     }).select("-password");
     // Explicitly convert to JSON to ensure proper serialization
-    res.status(200).json({ filteredUsers });
+    res.status(200).json(filteredUsers);
   } catch (error) {
     console.error("Error in allUsers controller:", error);
     res.status(500).json({

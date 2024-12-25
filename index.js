@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/user.route.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import MessageRouter from "./routes/message.route.js";
 
 const app = express();
 dotenv.config();
@@ -33,6 +34,7 @@ try {
 }
 
 app.use("/api/user", userRoutes);
+app.use("/api/message", MessageRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
