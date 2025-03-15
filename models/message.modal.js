@@ -12,18 +12,6 @@ const messageSchema = mongoose.Schema(
       ref: "user",
       require: true,
     },
-    // messageId: {
-    //   type: String,
-    //   require: true,
-    //   maxlength: 1000,
-    //   trim: true,
-    //   validate: [
-    //     {
-    //       validator: (value) => value.length > 0,
-    //       message: "Messsage cannot be empty",
-    //     },
-    //   ],
-    // },
     message: {
       type: String,
       require: true,

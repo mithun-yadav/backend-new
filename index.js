@@ -5,8 +5,8 @@ import userRoutes from "./routes/user.route.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import MessageRouter from "./routes/message.route.js";
+import { app, server, io } from "./socketIO/server.js";
 
-const app = express();
 dotenv.config();
 const port = process.env.PORT || 5000;
 const URI = process.env.MONGODB_URI;
@@ -23,7 +23,13 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:4001", // ✅ Your frontend URL
+    credentials: true, // ✅ Allows sending cookies
+  })
+);
 app.use(cookieParser());
 
 try {
@@ -40,6 +46,6 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log("Server is listening at port", port);
 });

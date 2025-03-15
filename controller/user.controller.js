@@ -1,4 +1,4 @@
-import User from "../models/user.module.js";
+import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import createTokenAndSaveCookie from "../jwt/generateToken.js";
 
@@ -37,17 +37,19 @@ export const login = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      res.status(404).json({ message: "Invalid User" });
+      return res.status(404).json({ message: "Invalid User" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
-      res.status(404).json({ message: "Invalid Password" });
+      return res.status(404).json({ message: "Invalid Password" });
     }
-    createTokenAndSaveCookie(user._id, res);
-    // res.status(201).json({ message: "User logedin successfully!" });
-    res.status(201).json({ message: "User logedin successfully!", user });
+
+    // Get tokens from your token creation function
+    const { accessToken } = await createTokenAndSaveCookie(res, user._id);
+    res
+      .status(201)
+      .json({ message: "User logedin successfully!", user, accessToken });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
@@ -68,9 +70,11 @@ export const getUserProfile = async (req, res) => {
   try {
     // const allUsers = await User.find().select("-password");
     const loggedInUser = req.user._id;
+    console.log(loggedInUser, "+++++");
     const filteredUsers = await User.find({
       _id: { $ne: loggedInUser },
     }).select("-password");
+    console.log(filteredUsers, "logedIN+++++");
     // Explicitly convert to JSON to ensure proper serialization
     res.status(200).json(filteredUsers);
   } catch (error) {

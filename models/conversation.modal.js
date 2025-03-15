@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import User from "./user.module.js";
+import User from "./user.model.js";
 import Message from "./message.modal.js";
 
 const conversationSchema = new mongoose.Schema(
   {
-    participants: [
+    members: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: User,
@@ -14,6 +14,7 @@ const conversationSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: Message,
+        default: [],
       },
     ],
   },
